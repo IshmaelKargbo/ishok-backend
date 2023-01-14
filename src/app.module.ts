@@ -1,7 +1,8 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { DatabaseModule } from './database/database.module';
-import { SkillModule } from './skill/skill.module';
+import { ProfileModule } from './profile/profile.module';
+import { ExprienceModule } from './exprience/exprience.module';
 import * as Joi from 'joi';
 
 @Module({
@@ -21,7 +22,8 @@ import * as Joi from 'joi';
       }),
     }),
     DatabaseModule,
-    SkillModule,
+    ProfileModule,
+    ExprienceModule,
   ],
 })
 export class AppModule {}
