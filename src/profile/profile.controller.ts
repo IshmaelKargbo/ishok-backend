@@ -74,7 +74,7 @@ export class ProfileController {
 
     const res: ResponseMessage = {
       statusCode: 201,
-      message: `$ profile with id ${id} deleted successfully`,
+      message: `profile with id ${id} deleted successfully`,
     };
 
     return res;
