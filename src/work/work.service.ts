@@ -22,11 +22,11 @@ export class WorkService {
     return this.repo.save(workDTO);
   }
 
-  public edit(id: string, workDTO: WorkDTO): Promise<WorkEntity> {
+  public async edit(id: string, workDTO: WorkDTO): Promise<WorkEntity> {
     try {
       workDTO.formateData();
 
-      let editWork = this.repo.findOneBy({ id });
+      const editWork = await this.repo.findOneBy({ id });
 
       if (!editWork) {
         throw new NotFoundException('Work not found!');
@@ -34,9 +34,7 @@ export class WorkService {
 
       this.repo.update(id, workDTO);
 
-      editWork = { ...editWork, ...workDTO };
-
-      return editWork;
+      return workDTO.toEntity(id);
     } catch (error) {
       throw new HttpException(
         'Work data already exist!',
