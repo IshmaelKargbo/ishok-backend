@@ -6,6 +6,7 @@ import {
   IsOptional,
   IsString,
 } from 'class-validator';
+import { WorkEntity } from './entities/work.entity';
 
 export class WorkDTO {
   @IsString()
@@ -41,5 +42,23 @@ export class WorkDTO {
   formateData() {
     this.company = capital(this.company);
     this.name = sentence(this.name);
+  }
+
+  toEntity(id: string) {
+    const entity = new WorkEntity();
+
+    entity.id = id;
+    entity.company = this.company;
+    entity.date = this.date;
+    entity.details = this.details;
+    entity.featured = this.featured;
+    entity.github = this.github;
+    entity.github = this.github;
+    entity.image = this.image;
+    entity.live = this.live;
+    entity.name = this.name;
+    entity.tech = this.tech;
+
+    return entity;
   }
 }
