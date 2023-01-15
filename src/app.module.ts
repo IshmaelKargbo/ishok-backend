@@ -3,8 +3,9 @@ import { ConfigModule } from '@nestjs/config';
 import { DatabaseModule } from './database/database.module';
 import { ProfileModule } from './profile/profile.module';
 import { ExperienceModule } from './experience/experience.module';
-import { WorkService } from './work/work.service';
 import { WorkModule } from './work/work.module';
+import { MinioClientModule } from './minio-client/minio-client.module';
+import { StorageModule } from './storage/storage.module';
 import * as Joi from 'joi';
 
 @Module({
@@ -27,6 +28,8 @@ import * as Joi from 'joi';
     ProfileModule,
     ExperienceModule,
     WorkModule,
+    MinioClientModule,
+    StorageModule,
   ],
 })
 export class AppModule {}
