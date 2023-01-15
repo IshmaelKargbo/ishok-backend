@@ -4,6 +4,7 @@ import {
   IsArray,
   IsBoolean,
   IsDate,
+  IsEnum,
   IsOptional,
   IsString,
 } from 'class-validator';
@@ -18,6 +19,12 @@ export class ExperienceDTO {
   @IsArray()
   duities: string[];
 
+  @IsEnum(['Full Time', 'Part Time', 'Intern'], {
+    message:
+      'type must be one of the following values: Full Time | Part Time | Intern',
+  })
+  type: 'Full Time' | 'Part Time' | 'Intern';
+
   @IsOptional()
   @IsString()
   site: string;
@@ -25,12 +32,30 @@ export class ExperienceDTO {
   @IsDate()
   start: Date;
 
+  @IsOptional()
   @IsDate()
   end: Date;
 
   @IsOptional()
   @IsBoolean()
   present: boolean;
+
+  private endDate() {
+    if (!this.end && !this.present) {
+      throw new HttpException(
+        'If you are not working at the company, please provide end date',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    if (!this.end) {
+      this.present = true;
+    }
+
+    if (this.present) {
+      this.end = null;
+    }
+  }
 
   formateData() {
     this.company = capital(this.company);
@@ -40,6 +65,8 @@ export class ExperienceDTO {
   validate() {
     const sDate = new Date(this.start);
     const eDate = new Date(this.end);
+
+    this.endDate();
 
     if (sDate > eDate) {
       throw new HttpException(
