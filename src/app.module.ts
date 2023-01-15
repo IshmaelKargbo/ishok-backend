@@ -3,6 +3,8 @@ import { ConfigModule } from '@nestjs/config';
 import { DatabaseModule } from './database/database.module';
 import { ProfileModule } from './profile/profile.module';
 import { ExprienceModule } from './exprience/exprience.module';
+import { WorkService } from './work/work.service';
+import { WorkModule } from './work/work.module';
 import * as Joi from 'joi';
 
 @Module({
@@ -24,6 +26,7 @@ import * as Joi from 'joi';
     DatabaseModule,
     ProfileModule,
     ExprienceModule,
+    WorkModule,
   ],
 })
 export class AppModule {}
