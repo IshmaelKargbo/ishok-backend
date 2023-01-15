@@ -6,8 +6,13 @@ import {
   Param,
   Patch,
   Post,
+  UploadedFile,
+  UseInterceptors,
 } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { ResponseMessage } from 'src/common/response';
+import { BufferedFile } from 'src/minio-client/file.model';
+import { StorageService } from 'src/storage/storage.service';
 import { WorkDTO } from './work.dto';
 import { WorkService } from './work.service';
 
@@ -22,16 +27,6 @@ export class WorkController {
     const res: ResponseMessage = {
       statusCode: 201,
       data: work,
-    };
-
-    return res;
-  }
-
-  @Post()
-  public async upload(@Body() workDTO: WorkDTO): Promise<ResponseMessage> {
-    const res: ResponseMessage = {
-      statusCode: 201,
-      message: 'Upload should be implemented!',
     };
 
     return res;
