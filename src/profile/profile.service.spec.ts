@@ -48,18 +48,13 @@ const allProfile: Array<ProfileEntity> = plainToClass(ProfileEntity, [profile]);
 describe('ProfileService', () => {
   let service: ProfileService;
 
-  const mockedRepo = {
-    // mock the repo `findOneOrFail`
-    findOneOrFail: jest.fn(() => Promise.resolve(oneProfile)),
-  };
-
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         ProfileService, // Mock the repository using the `getRepositoryToken` from @nestjs/typeorm
         {
           provide: getRepositoryToken(ProfileEntity),
-          useValue: mockedRepo,
+          useValue: null,
         },
       ],
     }).compile();
@@ -142,6 +137,32 @@ describe('ProfileService', () => {
       // Ensure that the spies are called once with the appropriate arguments
       expect(findOneSpy).toHaveBeenCalledTimes(1);
       expect(findOneSpy).toHaveBeenCalledWith(oneProfile.id);
+    });
+  });
+
+  // Now we are ready to write the tests.
+  describe('delete profile', () => {
+    it('should return a delete profile', async () => {
+      // We can use jest spies to inspect if functions are called ...
+
+      // create a spy for the repository findOne method
+      const deleteSpy = jest
+        .spyOn(service, 'delete')
+        .mockImplementation(() => Promise.resolve(oneProfile));
+
+      // When we call a service function the following things happen:
+      // - the real service function is called, so we can test its code
+      // - the mocked repository method is called
+      // note that if the service calls a function in a repo or query service that is not defined by a mock, the test
+      // will fail
+      const profile = await service.delete(oneProfile.id);
+
+      // check the result against the expected results
+      expect(profile).toEqual(oneProfile);
+
+      // Ensure that the spies are called once with the appropriate arguments
+      expect(deleteSpy).toHaveBeenCalledTimes(1);
+      expect(deleteSpy).toHaveBeenCalledWith(oneProfile.id);
     });
   });
 
